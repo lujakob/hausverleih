@@ -1,0 +1,8 @@
+.inventory-row {
+  margin-bottom: 8px;
+  display: flex;
+}
+
+.label {
+  width: 100px;
+}

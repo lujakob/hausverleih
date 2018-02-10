@@ -5,5 +5,27 @@
 </mat-toolbar>
 
 <div>
-	<div *ngFor="let item of items">{{item.title}} - {{item.userName}}</div>
+
+	<mat-table #table [dataSource]="dataSource">
+
+		<!--- Note that these columns can be defined in any order.
+					The actual rendered columns are set as a property on the row definition" -->
+
+		<!-- Position Column -->
+
+		<!-- Name Column -->
+		<ng-container matColumnDef="title">
+			<mat-header-cell *matHeaderCellDef> Titel </mat-header-cell>
+			<mat-cell *matCellDef="let element"> {{element.title}} </mat-cell>
+		</ng-container>
+
+		<!-- Weight Column -->
+		<ng-container matColumnDef="owner">
+			<mat-header-cell *matHeaderCellDef> Halter </mat-header-cell>
+			<mat-cell *matCellDef="let element"> {{element.owner.name}} </mat-cell>
+		</ng-container>
+
+		<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+		<mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onClick(row)"></mat-row>
+	</mat-table>
 </div>

@@ -4,11 +4,7 @@ import {FirestoreService} from "../../shared/services/firestore.service";
 import {AuthService} from "../../auth/auth.service";
 import {User} from "../../user/user";
 import {Router} from "@angular/router";
-
-interface Category {
-  title: string;
-  uid: number;
-}
+import { ICategory, IIventoryItem } from '../inventory.domain';
 
 @Component({
   selector: 'app-inventory-create',
@@ -20,9 +16,9 @@ export class InventoryCreateComponent implements OnInit {
 
   private user: User;
 
-  public categories: Category[] = [
-    {title: 'Magazin', uid: 1},
-    {title: 'Bücher', uid: 2}
+  public categories: ICategory[] = [
+    {title: 'Magazin', id: 1},
+    {title: 'Bücher', id: 2}
   ];
 
   public itemForm = new FormGroup({
@@ -41,26 +37,29 @@ export class InventoryCreateComponent implements OnInit {
   }
 
   createItem() {
-    console.log("valid", this.itemForm.valid);
-    if (this.itemForm.valid) {
-      const values = this.itemForm;
-      const data = {
-        title: values.get('title').value,
-        categoryId: values.get('category').value,
-        userId: this.user.uid,
-        userName: this.user.displayName
-      };
+    console.log("form values", this.itemForm.getRawValue());
 
+    if (this.itemForm.valid) {
       this.firestoreService
-        .add('inventory', data)
+        .add('inventory', this.buildItem())
         .then( data => {
           console.log(data);
           this.router.navigate(['inventory']);
         })
         .catch(e => console.log(e));
-
-      console.log(values);
     }
+  }
+
+  buildItem(): IIventoryItem {
+    const values = this.itemForm;
+    const user = {id: this.user.uid, name: this.user.displayName};
+
+    return  {
+      title: values.get('title').value,
+      category: this.categories.find(cat => cat.id === parseInt(values.get('category').value, 10)),
+      owner: user,
+      holder: user
+    };
   }
 
   onBack() {

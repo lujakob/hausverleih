@@ -5,6 +5,7 @@ import { InventoryListComponent } from './inventory-list/inventory-list.componen
 import { InventoryCreateComponent } from './inventory-create/inventory-create.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "../shared/shared.module";
+import { InventoryDetailComponent } from './inventory-detail/inventory-detail.component';
 
 @NgModule({
   imports: [
@@ -14,6 +15,6 @@ import {SharedModule} from "../shared/shared.module";
     SharedModule,
     InventoryRoutingModule
   ],
-  declarations: [InventoryListComponent, InventoryCreateComponent]
+  declarations: [InventoryListComponent, InventoryCreateComponent, InventoryDetailComponent]
 })
 export class InventoryModule { }

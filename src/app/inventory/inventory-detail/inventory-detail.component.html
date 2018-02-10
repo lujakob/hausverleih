@@ -1,0 +1,33 @@
+<mat-toolbar>
+	<button mat-icon-button routerLink="/inventory">
+		<mat-icon>keyboard_arrow_left</mat-icon>
+		&nbsp;
+		<span>zurück</span>
+	</button>
+</mat-toolbar>
+
+<mat-card *ngIf="data">
+	<mat-card-header>
+		<mat-card-title>
+			<div class="inventory-row">
+				<div class="label">Titel:</div>
+				<div class="content">{{data?.title}}</div>
+			</div>
+			<div class="inventory-row">
+				<div class="label">Halter:</div>
+				<div class="content">{{data?.holder.name}}</div>
+			</div>
+			<div class="inventory-row">
+				<div class="label">Besitzer:</div>
+				<div class="content">{{data?.owner.name}}</div>
+			</div>
+			<div class="inventory-row">
+				<div class="label">Kategorie:</div>
+				<div class="content">{{data?.category.title}}</div>
+			</div>
+
+		</mat-card-title>
+	</mat-card-header>
+	<mat-card-content>
+	</mat-card-content>
+</mat-card>
