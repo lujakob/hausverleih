@@ -1,0 +1,16 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+.router-wrapper {
+  margin-top: 70px;
+}
+
+.content-wrapper {
+  margin: 0 auto;
+  max-width: 1200px;
+}
