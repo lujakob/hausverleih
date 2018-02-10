@@ -34,9 +34,28 @@
 
 <mat-card *ngIf="data" class="mt12">
 	<mat-card-content>
-		<div class="mb12" *ngIf="userHasRequested()">Du hast bereits eine Anfrage gestellt.</div>
-		<button mat-raised-button (click)="requestItem()" [disabled]="!claimItemActionEnabled">
-			Anfrage stellen
-		</button>
+		<ng-template [ngIf]="userHasRequested()">
+			<div class="mb12">Du hast bereits eine Anfrage gestellt.</div>
+			<button mat-raised-button (click)="requestItem()" *ngIf="showRequestBtn" [disabled]="!claimItemActionEnabled">
+				Anfrage stellen
+			</button>
+		</ng-template>
+
+		<ng-template [ngIf]="userIsItemHolder() && requests.length">
+			<div>
+				Du hast eine Anfrage von <b>{{requests[0].user.name}}</b>. <br>
+				Um das Asset zu übergeben bestätigen.
+			</div>
+			<div class="mt12">
+				<button mat-raised-button (click)="transferItem()">
+					Asset übergeben
+				</button>
+			</div>
+		</ng-template>
+		<ng-template [ngIf]="userIsItemHolder() && !requests.length">
+			<div>
+				Du hast dieses Asset gerade.
+			</div>
+		</ng-template>
 	</mat-card-content>
 </mat-card>

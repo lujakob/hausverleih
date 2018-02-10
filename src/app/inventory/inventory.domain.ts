@@ -21,4 +21,5 @@ export interface IInventoryRequest {
   createdAt?: string;
   updatedAt?: string;
   user: ItemUser;
+  id?: string;
 }

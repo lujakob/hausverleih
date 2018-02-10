@@ -17,11 +17,12 @@ import 'rxjs/add/operator/switchMap';
 export class InventoryDetailComponent implements OnInit {
 
   private user: User;
-  private requests: IInventoryRequest[] = [];
+  public requests: IInventoryRequest[] = [];
   private docId: string;
   // public data: IIventoryItem;
   public data: any;
   public claimItemActionEnabled: boolean = false;
+  public showRequestBtn: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -43,7 +44,7 @@ export class InventoryDetailComponent implements OnInit {
 
       return Observable.combineLatest(
         this.firestoreService.doc$(detailRef),
-        this.firestoreService.col$(requestRef)
+        this.firestoreService.colWithIds$(requestRef)
       );
 
     }).subscribe(([data, requests]) => {
@@ -54,6 +55,7 @@ export class InventoryDetailComponent implements OnInit {
 
       this.claimItemActionEnabled = this.updateItemActionEnabled();
 
+      this.showRequestBtn = !this.userIsItemHolder();
     });
 
   }
@@ -67,7 +69,7 @@ export class InventoryDetailComponent implements OnInit {
   }
 
   userIsItemHolder() {
-    return this.user.uid === this.data.holder.id;
+    return this.user && this.data && this.user.uid === this.data.holder.id;
   }
 
   requestItem() {
@@ -80,6 +82,27 @@ export class InventoryDetailComponent implements OnInit {
     };
 
     this.firestoreService.add(ref, data);
+  }
+
+  transferItem() {
+    if (! (this.requests && this.requests[0])) {
+      console.log('requests data is empty');
+      return;
+    }
+
+    const deleteRef = `inventory/${this.docId}/requests/${this.requests[0].id}`;
+    this.firestoreService
+      .delete(deleteRef)
+      .then(res => console.log(res))
+      .catch(e => console.log(e));
+
+    const updateRef = `inventory/${this.docId}`;
+    const {id, name} = this.requests[0].user;
+    const data = {holder: {id, name}};
+    this.firestoreService
+      .update(updateRef, data)
+      .then(res => console.log(res))
+      .catch(e => console.log(e));
   }
 
   loadData(id: string) {
