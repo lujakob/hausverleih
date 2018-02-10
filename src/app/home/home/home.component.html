@@ -1,3 +1,37 @@
-<p>
-  home works!
-</p>
+<mat-toolbar>
+	Letzte Einträge
+</mat-toolbar>
+<mat-table #table [dataSource]="dataSource">
+
+	<!--- Note that these columns can be defined in any order.
+				The actual rendered columns are set as a property on the row definition" -->
+
+	<!-- Position Column -->
+
+	<!-- createdAt Column -->
+	<ng-container matColumnDef="createdAt">
+		<mat-header-cell *matHeaderCellDef> Datum </mat-header-cell>
+		<mat-cell *matCellDef="let element"> {{element.createdAt | date:'dd.MM.yyyy'}} </mat-cell>
+	</ng-container>
+
+	<!-- Name Column -->
+	<ng-container matColumnDef="title">
+		<mat-header-cell *matHeaderCellDef> Titel </mat-header-cell>
+		<mat-cell *matCellDef="let element"> {{element.title}} </mat-cell>
+	</ng-container>
+
+	<!-- Category Column -->
+	<ng-container matColumnDef="category">
+		<mat-header-cell *matHeaderCellDef> Kategorie </mat-header-cell>
+		<mat-cell *matCellDef="let element"> {{element.category.title}} </mat-cell>
+	</ng-container>
+
+	<!-- Weight Column -->
+	<ng-container matColumnDef="owner">
+		<mat-header-cell *matHeaderCellDef> Halter </mat-header-cell>
+		<mat-cell *matCellDef="let element"> {{element.owner.name}} </mat-cell>
+	</ng-container>
+
+	<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+	<mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onClick(row)"></mat-row>
+</mat-table>

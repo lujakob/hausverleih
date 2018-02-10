@@ -36,10 +36,11 @@
 	<mat-card-content>
 		<ng-template [ngIf]="userHasRequested()">
 			<div class="mb12">Du hast bereits eine Anfrage gestellt.</div>
-			<button mat-raised-button (click)="requestItem()" *ngIf="showRequestBtn" [disabled]="!claimItemActionEnabled">
-				Anfrage stellen
-			</button>
 		</ng-template>
+
+		<button mat-raised-button (click)="requestItem()" *ngIf="showRequestBtn" [disabled]="!claimItemActionEnabled">
+			Anfrage stellen
+		</button>
 
 		<ng-template [ngIf]="userIsItemHolder() && requests.length">
 			<div>
