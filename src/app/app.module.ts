@@ -1,9 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ToolbarTopComponent } from './components/toolbar-top/toolbar-top.component';
 import { MatMenuModule, MatToolbarModule, MatButtonModule } from '@angular/material';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -13,9 +15,11 @@ import { MatMenuModule, MatToolbarModule, MatButtonModule } from '@angular/mater
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     MatMenuModule,
     MatToolbarModule,
-    MatButtonModule
+    MatButtonModule,
+    AuthModule
   ],
   providers: [],
   bootstrap: [AppComponent]

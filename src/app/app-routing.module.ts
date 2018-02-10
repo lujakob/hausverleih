@@ -10,6 +10,10 @@ const routes: Route[] = [
   {
     path: 'inventory',
     loadChildren: 'app/inventory/inventory.module#InventoryModule'
+  },
+  {
+    path: 'user',
+    loadChildren: 'app/user/user.module#UserModule'
   }
 ];
 
