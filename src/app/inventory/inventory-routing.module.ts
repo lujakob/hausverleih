@@ -9,18 +9,19 @@ const routes: Routes = [
     path: '',
     children: [
       {
-        path: ':id',
-        component: InventoryDetailComponent,
-      },
-      {
-        path: 'create',
-        component: InventoryCreateComponent
-      },
-      {
         path: '',
         component: InventoryListComponent,
         pathMatch: 'full'
       },
+      {
+        path: 'create',
+        component: InventoryCreateComponent,
+        pathMatch: 'full'
+      },
+      {
+        path: ':id',
+        component: InventoryDetailComponent,
+      }
     ]
   }
 ];

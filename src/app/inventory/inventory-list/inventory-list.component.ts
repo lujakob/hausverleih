@@ -26,6 +26,5 @@ export class InventoryListComponent implements OnInit {
 
   onClick(row) {
     this.router.navigate(['inventory', row.id])
-    console.log("row", row);
   }
 }

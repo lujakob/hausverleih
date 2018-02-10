@@ -6,3 +6,11 @@
 .label {
   width: 100px;
 }
+
+.mt12 {
+  margin-top: 12px;
+}
+
+.mb12 {
+  margin-bottom: 12px;
+}

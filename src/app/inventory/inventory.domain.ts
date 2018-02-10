@@ -16,3 +16,9 @@ export interface IIventoryItem {
   holder: ItemUser;
   owner: ItemUser;
 }
+
+export interface IInventoryRequest {
+  createdAt?: string;
+  updatedAt?: string;
+  user: ItemUser;
+}
