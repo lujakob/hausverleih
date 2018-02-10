@@ -1,0 +1,16 @@
+app-inventory-list {
+  .cdk-column-title {
+    flex-grow:2;
+  }
+  .cdk-column-owner {
+    flex-grow:1;
+  }
+  .cdk-column-category {
+    flex-grow:1;
+  }
+
+  .mat-select {
+    width: 120px;
+    font-size:13px;
+  }
+}

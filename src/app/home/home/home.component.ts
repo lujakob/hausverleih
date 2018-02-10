@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {IIventoryItem} from "../../inventory/inventory.domain";
 import {Router} from "@angular/router";
 import {FirestoreService} from "../../shared/services/firestore.service";
@@ -6,14 +6,14 @@ import {FirestoreService} from "../../shared/services/firestore.service";
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.scss'],
+  encapsulation: ViewEncapsulation.None
+
 })
 export class HomeComponent implements OnInit {
 
-  public items: IIventoryItem[] = [];
-
-  displayedColumns = ['createdAt', 'title', 'category'];
-  dataSource = [];
+  displayedColumns = ['title', 'category', 'createdAt'];
+  dataSource: IIventoryItem[] = [];
 
   constructor(
     private firestoreService: FirestoreService,
@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.firestoreService
       .colWithIds$('inventory', ref => ref.orderBy('createdAt', 'desc'))
-      .subscribe(data => this.dataSource = data);
+      .subscribe((data: IIventoryItem[]) => this.dataSource = data);
   }
 
   onClick(row) {

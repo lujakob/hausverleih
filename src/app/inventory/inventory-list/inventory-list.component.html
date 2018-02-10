@@ -1,7 +1,16 @@
 <mat-toolbar>
 	<button mat-button routerLink="create">
-		Neu
+		<mat-icon>add_circle</mat-icon>
+		<span>Neu</span>
 	</button>
+	<span class="fill-remaining-space"></span>
+
+
+	<mat-select placeholder="Kategorie" [formControl]="categoryFilter">
+		<mat-option *ngFor="let category of categories" [value]="category.id">
+			{{ category.title }}
+		</mat-option>
+	</mat-select>
 </mat-toolbar>
 
 <div>
@@ -19,11 +28,18 @@
 			<mat-cell *matCellDef="let element"> {{element.title}} </mat-cell>
 		</ng-container>
 
-		<!-- Weight Column -->
+		<!-- Owner Column -->
 		<ng-container matColumnDef="owner">
 			<mat-header-cell *matHeaderCellDef> Halter </mat-header-cell>
 			<mat-cell *matCellDef="let element"> {{element.owner.name}} </mat-cell>
 		</ng-container>
+
+		<!-- Category Column -->
+		<ng-container matColumnDef="category">
+			<mat-header-cell *matHeaderCellDef> Kategorie </mat-header-cell>
+			<mat-cell *matCellDef="let element"> {{element.category.title}} </mat-cell>
+		</ng-container>
+
 
 		<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 		<mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onClick(row)"></mat-row>
