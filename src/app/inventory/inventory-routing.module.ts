@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { InventoryListComponent } from './inventory-list/inventory-list.component';
+import {InventoryCreateComponent} from "./inventory-create/inventory-create.component";
 
 const routes: Routes = [
   {
@@ -8,7 +9,12 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: InventoryListComponent
+        component: InventoryListComponent,
+        pathMatch: 'full'
+      },
+      {
+        path: 'create',
+        component: InventoryCreateComponent
       }
     ]
   }

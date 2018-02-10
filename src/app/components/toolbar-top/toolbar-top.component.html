@@ -3,7 +3,7 @@
 	<button mat-menu-item (click)="onLogout()"> Logout </button>
 </mat-menu>
 <mat-toolbar *ngIf="showNavbar" color="primary" class="nav-top header-shadow">
-	<span class="navBar-title">{{title}}</span>
+	<span class="navBar-title" routerLink="/">{{title}}</span>
 
 	<button mat-button routerLink="/inventory">
 		Liste

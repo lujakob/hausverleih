@@ -1,0 +1,41 @@
+<mat-toolbar>
+	<button mat-icon-button (click)="onBack()">
+		<mat-icon>keyboard_arrow_left</mat-icon>
+		&nbsp;
+		<span>zurück</span>
+	</button>
+</mat-toolbar>
+
+<mat-card>
+	<mat-card-header>
+		<mat-card-title>
+			Neues Asset anlegen
+		</mat-card-title>
+	</mat-card-header>
+	<mat-card-content>
+		<div class="form-container" [formGroup]="itemForm">
+
+			<mat-form-field>
+				<input matInput placeholder="Titel" formControlName="title" required>
+				<mat-error *ngIf="itemForm.get('title').hasError('required')">
+					Bitte Titel ausfüllen.
+				</mat-error>
+			</mat-form-field>
+
+			<mat-form-field>
+				<mat-select placeholder="Kategorie" formControlName="category" required>
+					<mat-option *ngFor="let category of categories" [value]="category.uid">
+						{{ category.title }}
+					</mat-option>
+				</mat-select>
+				<mat-error *ngIf="itemForm.get('category').hasError('required')">
+					Bitte Kategorie auswählen.
+				</mat-error>
+			</mat-form-field>
+
+			<div class="button-row">
+				<button mat-raised-button color="primary" (click)="createItem()">Speichern</button>
+			</div>
+		</div>
+	</mat-card-content>
+</mat-card>
