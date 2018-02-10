@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthService} from "../../auth/auth.service";
 
 @Component({
   selector: 'app-toolbar-top',
@@ -11,9 +12,16 @@ export class ToolbarTopComponent implements OnInit {
   public userName: string = '';
   public title: string = 'Hausverleih';
 
-  constructor() { }
+  constructor(private auth: AuthService) { }
 
   ngOnInit() {
+    this.auth.user
+      .do(user => this.userName = (user && user.displayName) ? user.displayName : '')
+      .map(user => !!user)
+      .subscribe(isLogged => this.showNavbar = isLogged)
   }
 
+  onLogout() {
+    this.auth.signOut()
+  }
 }

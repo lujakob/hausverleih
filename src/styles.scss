@@ -14,3 +14,8 @@ html, body {
   margin: 0 auto;
   max-width: 1200px;
 }
+
+.fill-space,
+.fill-remaining-space {
+  flex: 1 1 auto;
+}
