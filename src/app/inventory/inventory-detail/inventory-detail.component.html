@@ -38,7 +38,7 @@
 			<div class="mb12">Du hast bereits eine Anfrage gestellt.</div>
 		</ng-template>
 
-		<button mat-raised-button (click)="requestItem()" *ngIf="showRequestBtn" [disabled]="!claimItemActionEnabled">
+		<button mat-raised-button (click)="onRequestItem()" *ngIf="showRequestBtn" [disabled]="!claimItemActionEnabled">
 			Anfrage stellen
 		</button>
 

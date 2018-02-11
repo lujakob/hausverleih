@@ -72,6 +72,20 @@ export class InventoryDetailComponent implements OnInit {
     return this.user && this.data && this.user.uid === this.data.holder.id;
   }
 
+  onRequestItem() {
+    this.requestItem();
+    this.addPendingRequestToHolder();
+  }
+
+  addPendingRequestToHolder() {
+    const ref = `users/${this.data.holder.id}/pending-requests/${this.docId}`;
+    const data = {
+      inventoryTitle: this.data.title
+    };
+
+    this.firestoreService.set(ref, data);
+  }
+
   requestItem() {
     const ref = `inventory/${this.docId}/requests`;
     const data: IInventoryRequest = {
@@ -90,18 +104,26 @@ export class InventoryDetailComponent implements OnInit {
       return;
     }
 
-    const deleteRef = `inventory/${this.docId}/requests/${this.requests[0].id}`;
+    const request = this.requests[0];
+
+    // delete request
+    const deleteRef = `inventory/${this.docId}/requests/${request.id}`;
     this.firestoreService
       .delete(deleteRef)
-      .then(res => console.log(res))
       .catch(e => console.log(e));
 
+    // update asset holder
     const updateRef = `inventory/${this.docId}`;
-    const {id, name} = this.requests[0].user;
+    const {id, name} = request.user;
     const data = {holder: {id, name}};
     this.firestoreService
       .update(updateRef, data)
-      .then(res => console.log(res))
+      .catch(e => console.log(e));
+
+    // delete pending request
+    const deletePendingRef = `users/${this.data.holder.id}/pending-requests/${this.docId}`;
+    this.firestoreService
+      .delete(deletePendingRef)
       .catch(e => console.log(e));
   }
 
