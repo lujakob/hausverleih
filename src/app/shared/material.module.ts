@@ -14,7 +14,8 @@ import {
 	MatSnackBarModule,
 	MatMenuModule,
   MatTableModule,
-  MatProgressBarModule
+  MatProgressBarModule,
+  MatButtonToggleModule
 } from '@angular/material';
 
 
@@ -34,7 +35,8 @@ import {
 		MatSnackBarModule,
 		MatMenuModule,
     MatTableModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatButtonToggleModule
 	]
 })
 export class MaterialModule {}

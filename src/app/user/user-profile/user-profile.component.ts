@@ -1,20 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import {FirestoreService} from "../../shared/services/firestore.service";
-import {AuthService} from "../../auth/auth.service";
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {FirestoreService} from '../../shared/services/firestore.service';
+import {AuthService} from '../../auth/auth.service';
 import { Router } from '@angular/router';
-import { User } from "../../user/user";
+import { User } from '../../user/user';
 import 'rxjs/add/operator/switchMap';
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.css']
+  styleUrls: ['./user-profile.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class UserProfileComponent implements OnInit {
 
   private user: User;
-  dataSource = [];
-  displayedColumns = ['inventoryTitle'];
+  public requests = [];
+  public assets = [];
+  public requestsColumns = ['inventoryTitle'];
+  public assetsColumns = ['title', 'category', 'delete'];
 
   constructor(
     private firestoreService: FirestoreService,
@@ -24,21 +27,47 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit() {
     this.auth.user
-      .switchMap((user: User) => {
+      .subscribe((user: User) => {
         this.user = user;
 
-        const ref = `users/${user.uid}/pending-requests`;
-        return this.firestoreService
-          .colWithIds$(ref, ref => ref.orderBy('createdAt', 'desc'));
+        this.loadRequests(user);
+        this.loadAssets(user);
 
-      })
-      .subscribe(data => {
-          this.dataSource = data;
       });
 
   }
 
+  loadRequests(user: User) {
+    const ref = `users/${user.uid}/pending-requests`;
+    this.firestoreService
+      .colWithIds$(ref, ref => ref.orderBy('createdAt', 'desc'))
+      .subscribe(data => {
+        this.requests = data;
+      });
+  }
+
+  loadAssets(user: User) {
+    const ref = `inventory`;
+    this.firestoreService
+      .colWithIds$(ref, ref => {
+
+        ref.where('owner.id', '==', user.uid);
+        return ref;
+      })
+      .subscribe(data => {
+        this.assets = data;
+      });
+  }
+
+  switchContent(event) {
+    console.log(event);
+  }
+
   onClick(row) {
     this.router.navigate(['inventory', row.id])
+  }
+
+  delete(row) {
+    console.log(row);
   }
 }

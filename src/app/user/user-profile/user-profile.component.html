@@ -1,16 +1,48 @@
-<mat-table #table [dataSource]="dataSource">
+<mat-button-toggle-group #group="matButtonToggleGroup" (change)="switchContent($event)" >
+	<mat-button-toggle value="REQUESTS" [checked]="true">
+		Anfragen
+	</mat-button-toggle>
+	<mat-button-toggle value="ASSETS">
+		Meine Assets
+	</mat-button-toggle>
+</mat-button-toggle-group>
 
-	<!--- Note that these columns can be defined in any order.
-				The actual rendered columns are set as a property on the row definition" -->
+<ng-template [ngIf]="group.value === 'ASSETS'">
+	<mat-table #table [dataSource]="assets">
 
-	<!-- Position Column -->
+		<!-- Name Column -->
+		<ng-container matColumnDef="title">
+			<mat-header-cell *matHeaderCellDef> Titel </mat-header-cell>
+			<mat-cell *matCellDef="let element" (click)="onClick(element)"> {{element.title}} </mat-cell>
+		</ng-container>
 
-	<!-- Name Column -->
-	<ng-container matColumnDef="inventoryTitle">
-		<mat-header-cell *matHeaderCellDef> Titel </mat-header-cell>
-		<mat-cell *matCellDef="let element"> {{element.inventoryTitle}} </mat-cell>
-	</ng-container>
+		<!-- Category Column -->
+		<ng-container matColumnDef="category">
+			<mat-header-cell *matHeaderCellDef> Kategorie </mat-header-cell>
+			<mat-cell *matCellDef="let element" (click)="onClick(element)"> {{element.category.title}} </mat-cell>
+		</ng-container>
 
-	<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-	<mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onClick(row)"></mat-row>
-</mat-table>
+		<!-- Delete Column -->
+		<ng-container matColumnDef="delete">
+			<mat-header-cell *matHeaderCellDef>  </mat-header-cell>
+			<mat-cell *matCellDef="let element"><mat-icon (click)="delete(element)">delete</mat-icon></mat-cell>
+		</ng-container>
+
+		<mat-header-row *matHeaderRowDef="assetsColumns"></mat-header-row>
+		<mat-row *matRowDef="let row; columns: assetsColumns;"></mat-row>
+	</mat-table>
+</ng-template>
+
+<ng-template [ngIf]="group.value === 'REQUESTS'">
+	<mat-table #table [dataSource]="requests">
+
+		<!-- Name Column -->
+		<ng-container matColumnDef="inventoryTitle">
+			<mat-header-cell *matHeaderCellDef> Titel </mat-header-cell>
+			<mat-cell *matCellDef="let element"> {{element.inventoryTitle}} </mat-cell>
+		</ng-container>
+
+		<mat-header-row *matHeaderRowDef="requestsColumns"></mat-header-row>
+		<mat-row *matRowDef="let row; columns: requestsColumns;" (click)="onClick(row)"></mat-row>
+	</mat-table>
+</ng-template>
