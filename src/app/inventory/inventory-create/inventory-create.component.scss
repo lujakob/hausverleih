@@ -10,8 +10,15 @@ app-inventory-create {
   }
 
   .input-file-wrapper {
+    margin-top: 8px;
     padding-bottom: 1.25em;
     width: 100%;
+
+    label {
+      margin-bottom: 8px;
+      display:block;
+      color: rgba(0,0,0,.42);
+    }
   }
 
   .mat-form-field {
@@ -20,6 +27,20 @@ app-inventory-create {
 
   input[type=file] {
     width: 100%;
-    border-bottom: 1px solid rgba(0,0,0,.42);
+    border-bottom: 1px solid rgba(0, 0, 0, .42);
+  }
+
+  progress {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.38);
+    height: 3px;
+  }
+
+  ::-webkit-progress-value {
+    background-color: #3f51b5;
+  }
+
+  .button-row {
+    margin-top: 12px;
   }
 }

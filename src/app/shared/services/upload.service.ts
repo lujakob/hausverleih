@@ -31,15 +31,18 @@ export class UploadService {
 
   // Executes the file uploading to firebase https://firebase.google.com/docs/storage/web/upload-files
   pushUpload(upload: IUpload, fileNamePrefix: string = '') {
+    const filename = fileNamePrefix + upload.file.name;
     const storageRef = firebase.storage().ref();
-    const uploadTask = storageRef.child(`${this.basePath}/${upload.file.name}`).put(upload.file);
+    const uploadTask = storageRef.child(`${this.basePath}/${filename}`).put(upload.file);
 
     return new Promise((resolve, reject) => {
       uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
         (snapshot: firebase.storage.UploadTaskSnapshot) =>  {
+        console.log("joo");
           // upload in progress
-          const snap = snapshot;
-          upload.progress = (snap.bytesTransferred / snap.totalBytes) * 100
+          const snap = uploadTask.snapshot;
+          upload.progress = (snap.bytesTransferred / snap.totalBytes) * 100;
+          console.log(upload.progress);
         },
         (error) => {
           // upload failed
@@ -50,7 +53,7 @@ export class UploadService {
           // upload success
           if (uploadTask.snapshot.downloadURL) {
             upload.url = uploadTask.snapshot.downloadURL;
-            upload.name = fileNamePrefix + upload.file.name;
+            upload.name = filename;
             console.log("resolve", upload);
             return resolve(upload);
           } else {

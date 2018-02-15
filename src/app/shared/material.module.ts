@@ -13,7 +13,8 @@ import {
 	MatDividerModule,
 	MatSnackBarModule,
 	MatMenuModule,
-  MatTableModule
+  MatTableModule,
+  MatProgressBarModule
 } from '@angular/material';
 
 
@@ -32,7 +33,8 @@ import {
 		MatDividerModule,
 		MatSnackBarModule,
 		MatMenuModule,
-    MatTableModule
+    MatTableModule,
+    MatProgressBarModule
 	]
 })
 export class MaterialModule {}
