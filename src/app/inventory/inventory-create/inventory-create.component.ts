@@ -1,10 +1,13 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {FirestoreService} from "../../shared/services/firestore.service";
-import {AuthService} from "../../auth/auth.service";
-import {User} from "../../user/user";
-import {Router} from "@angular/router";
-import { ICategory, IIventoryItem } from '../inventory.domain';
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { FirestoreService } from '../../shared/services/firestore.service';
+import { AuthService } from '../../auth/auth.service';
+import { User } from '../../user/user';
+import { Router } from '@angular/router';
+import { ICategory, IIventoryItem, IUpload } from '../inventory.domain';
+import { Upload } from '../../shared/services/upload';
+import { UploadService } from '../../shared/services/upload.service';
+import { Ng2ImgToolsService } from 'ng2-img-tools';
 
 @Component({
   selector: 'app-inventory-create',
@@ -16,6 +19,9 @@ export class InventoryCreateComponent implements OnInit {
 
   private user: User;
 
+  selectedFiles: FileList | null;
+  currentUpload: IUpload;
+
   public categories: ICategory[] = [
     {title: 'Magazin', id: 1},
     {title: 'Bücher', id: 2}
@@ -23,34 +29,75 @@ export class InventoryCreateComponent implements OnInit {
 
   public itemForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
-    category: new FormControl('', [Validators.required])
+    category: new FormControl('', [Validators.required]),
+    image: new FormControl('')
   });
 
   constructor(
     private auth: AuthService,
     private firestoreService: FirestoreService,
-    private router: Router
+    private upSvc: UploadService,
+    private router: Router,
+    private ng2ImgToolsService: Ng2ImgToolsService
   ) { }
 
   ngOnInit() {
     this.auth.user.subscribe((user: User) => this.user = user);
   }
 
-  createItem() {
-    console.log("form values", this.itemForm.getRawValue());
+  detectFiles($event: Event) {
+    this.selectedFiles = ($event.target as HTMLInputElement).files;
+  }
 
-    if (this.itemForm.valid) {
-      this.firestoreService
-        .add('inventory', this.buildItem())
-        .then( data => {
-          console.log(data);
-          this.router.navigate(['inventory']);
-        })
-        .catch(e => console.log(e));
+  uploadSingle() {
+    const file = this.selectedFiles;
+    if (file && file.length === 1) {
+      this.currentUpload = new Upload(file.item(0));
+      this.upSvc.pushUpload(this.currentUpload);
+    } else {
+      console.error('No file found!');
     }
   }
 
-  buildItem(): IIventoryItem {
+  saveItem() {
+    if (!this.itemForm.valid) {
+      return;
+    }
+
+    const file = this.selectedFiles;
+    if (file && file.length === 1) {
+
+      this.ng2ImgToolsService.resize([file.item(0)], 300, 300).subscribe(result => {
+
+        this.currentUpload = new Upload(result);
+        this.upSvc
+          .pushUpload(this.currentUpload)
+          .then((upload: Upload) => {
+            this.createItem(upload);
+          })
+          .catch(e => console.log(e));
+      }, error => {
+        console.log(error);
+      });
+
+    } else {
+      console.error('No file found!');
+      this.createItem();
+    }
+  }
+
+  createItem(upload?: IUpload) {
+    this.firestoreService
+      .add('inventory', this.buildItem(upload))
+      .then( data => {
+        console.log(data);
+        this.router.navigate(['inventory']);
+      })
+      .catch(e => console.log(e));
+  }
+
+  buildItem(upload?: IUpload): IIventoryItem {
+    console.log(upload);
     const values = this.itemForm;
     const user = {id: this.user.uid, name: this.user.displayName};
 
@@ -58,7 +105,9 @@ export class InventoryCreateComponent implements OnInit {
       title: values.get('title').value,
       category: this.categories.find(cat => cat.id === parseInt(values.get('category').value, 10)),
       owner: user,
-      holder: user
+      holder: user,
+      // delete file property because of 'firebase Unsupported field value: a custom File object' problem
+      media: Object.assign({}, upload, {file: null})
     };
   }
 

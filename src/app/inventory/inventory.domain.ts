@@ -1,3 +1,5 @@
+import { Upload } from '../shared/services/upload';
+
 export interface ICategory {
   title: string;
   id: number;
@@ -15,6 +17,7 @@ export interface IIventoryItem {
   category: ICategory;
   holder: ItemUser;
   owner: ItemUser;
+  media: IUpload;
 }
 
 export interface IInventoryRequest {
@@ -22,4 +25,13 @@ export interface IInventoryRequest {
   updatedAt?: string;
   user: ItemUser;
   id?: string;
+}
+
+export interface IUpload {
+  $key: string;
+  file: any;
+  name:string;
+  url:string;
+  progress:number;
+  createdAt: Date;
 }

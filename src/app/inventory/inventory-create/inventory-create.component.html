@@ -32,8 +32,12 @@
 				</mat-error>
 			</mat-form-field>
 
+			<div class="input-file-wrapper">
+				<input placeholder="Bild" formControlName="image" type="file" accept="image/*" (change)="detectFiles($event)">
+			</div>
+
 			<div class="button-row">
-				<button mat-raised-button color="primary" (click)="createItem()">Speichern</button>
+				<button mat-raised-button color="primary" (click)="saveItem()">Speichern</button>
 			</div>
 		</div>
 	</mat-card-content>
