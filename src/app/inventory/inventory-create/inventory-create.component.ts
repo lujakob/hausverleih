@@ -64,14 +64,17 @@ export class InventoryCreateComponent implements OnInit {
       return;
     }
 
+    const fileNamePrefix = this.itemForm.get('title').value.toLowerCase() + '-';
     const file = this.selectedFiles;
+
     if (file && file.length === 1) {
 
-      this.ng2ImgToolsService.resize([file.item(0)], 300, 300).subscribe(result => {
+      this.ng2ImgToolsService.resize([file.item(0)], 500, 500).subscribe(result => {
 
         this.currentUpload = new Upload(result);
+
         this.upSvc
-          .pushUpload(this.currentUpload)
+          .pushUpload(this.currentUpload, fileNamePrefix)
           .then((upload: Upload) => {
             this.createItem(upload);
           })

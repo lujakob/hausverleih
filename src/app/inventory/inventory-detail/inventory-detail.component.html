@@ -6,6 +6,10 @@
 	</button>
 </mat-toolbar>
 
+<div class="inventory-image" *ngIf="data?.media">
+	<img src="{{data?.media?.url}}">
+</div>
+
 <mat-card *ngIf="data">
 	<mat-card-header>
 		<mat-card-title>

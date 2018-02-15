@@ -14,3 +14,12 @@
 .mb12 {
   margin-bottom: 12px;
 }
+
+.inventory-image {
+
+}
+
+.inventory-image img {
+  width: 100%;
+  height: auto;
+}

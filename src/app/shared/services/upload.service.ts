@@ -30,7 +30,7 @@ export class UploadService {
   }
 
   // Executes the file uploading to firebase https://firebase.google.com/docs/storage/web/upload-files
-  pushUpload(upload: IUpload) {
+  pushUpload(upload: IUpload, fileNamePrefix: string = '') {
     const storageRef = firebase.storage().ref();
     const uploadTask = storageRef.child(`${this.basePath}/${upload.file.name}`).put(upload.file);
 
@@ -50,7 +50,7 @@ export class UploadService {
           // upload success
           if (uploadTask.snapshot.downloadURL) {
             upload.url = uploadTask.snapshot.downloadURL;
-            upload.name = upload.file.name;
+            upload.name = fileNamePrefix + upload.file.name;
             console.log("resolve", upload);
             return resolve(upload);
           } else {
