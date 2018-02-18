@@ -9,13 +9,15 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { MatSnackBarModule } from '@angular/material';
+import {SharedModule} from "../shared/shared.module";
 
 @NgModule({
 	imports: [
 		AngularFireModule.initializeApp(environment.firebaseConfig),
 		AngularFireAuthModule,
 		AngularFirestoreModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    SharedModule
 	],
 	declarations: [],
 	providers: [

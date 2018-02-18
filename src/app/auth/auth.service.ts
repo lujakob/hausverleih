@@ -10,23 +10,26 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/switchMap'
 
 import { User } from '../user/user';
+import {FirestoreService} from "../shared/services/firestore.service";
 
 @Injectable()
 export class AuthService {
 
 	user: Observable<User>
 
-	constructor(private afAuth: AngularFireAuth,
-				private afs: AngularFirestore,
-				private router: Router,
-				private snackBar: MatSnackBar) {
+	constructor(
+	  private afAuth: AngularFireAuth,
+		private firestoreService: FirestoreService,
+		private router: Router,
+		private snackBar: MatSnackBar
+  ) {
 
 		this.afAuth.auth.useDeviceLanguage()
 
 		this.user = this.afAuth.authState
 			.switchMap(user => {
 				if (user) {
-					return this.afs.doc<User>(`users/${user.uid}`).valueChanges()
+          return this.firestoreService.doc$(`users/${user.uid}`)
 				} else {
 					return Observable.of(null)
 				}
@@ -34,17 +37,20 @@ export class AuthService {
 	}
 
 	private updateUserData(user: User) {
-		const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`)
+	  const ref = `users/${user.uid}`;
 
 		const data: User = {
 			uid: user.uid,
 			email: user.email,
-			emailVerified: user.emailVerified,
-			displayName: user.displayName,
-			photoURL: user.photoURL
+			emailVerified: user.emailVerified
 		};
 
-		return userRef.set(data)
+		if (user.displayName) {
+      data.displayName = user.displayName;
+      data.photoURL = user.photoURL;
+    }
+
+		return this.firestoreService.upsert(ref, data);
 	}
 
 	private oAuthLogin(provider) {
@@ -88,14 +94,14 @@ export class AuthService {
 					photoURL: null
 				};
 
-				this.updateUserData(userData)
-				this.router.navigate(['/'])
+				this.updateUserData(userData);
+				this.router.navigate(['/']);
 			})
 			.catch(e => console.log(e))
 	}
 
 	resetPassword(email: string) {
-		return this.afAuth.auth.sendPasswordResetEmail(email)
+		return this.afAuth.auth.sendPasswordResetEmail(email);
 	}
 
 	emailLogin(email: string, password: string) {
@@ -110,7 +116,7 @@ export class AuthService {
 					photoURL: null
 				};
 
-				this.updateUserData(userData)
+				this.updateUserData(userData);
 				this.router.navigate(['/'])
 			})
 			.catch(e => {
@@ -143,7 +149,7 @@ export class AuthService {
 		this.afAuth.auth
       .signOut()
 			.then(() => {
-				this.router.navigate(['/login'])
+				this.router.navigate(['/user/login'])
 			})
 			.catch(e => console.log(e.code))
 	}

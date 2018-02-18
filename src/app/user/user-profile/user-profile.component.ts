@@ -38,6 +38,8 @@ export class UserProfileComponent implements OnInit {
   }
 
   loadRequests(user: User) {
+    if (!user) return;
+
     const ref = `users/${user.uid}/pending-requests`;
     this.firestoreService
       .colWithIds$(ref, ref => ref.orderBy('createdAt', 'desc'))
@@ -47,6 +49,8 @@ export class UserProfileComponent implements OnInit {
   }
 
   loadAssets(user: User) {
+    if (!user) return;
+
     const ref = `inventory`;
     this.firestoreService
       .colWithIds$(ref, ref => {
