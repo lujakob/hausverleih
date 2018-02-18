@@ -35,7 +35,6 @@ export class InventoryListComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-
     this.categoryFilterForm
       .get('categoryFilter')
       .valueChanges

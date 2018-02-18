@@ -59,6 +59,12 @@ import 'core-js/es7/reflect';
  */
 import 'zone.js/dist/zone';  // Included with Angular CLI.
 
+/**
+ * Safari does not support HTMLCanvasElement.toBlob()
+ * https://github.com/bergben/ng2-img-tools#browser-support
+ * used for the image crop
+ */
+import 'blueimp-canvas-to-blob';
 
 
 /***************************************************************************************************
