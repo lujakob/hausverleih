@@ -23,6 +23,7 @@ export class InventoryDetailComponent implements OnInit {
   public data: any;
   public claimItemActionEnabled: boolean = false;
   public showRequestBtn: boolean = false;
+  public userHasRequested: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -51,17 +52,19 @@ export class InventoryDetailComponent implements OnInit {
       this.requests = <IInventoryRequest[]>requests;
       this.data = data;
 
-      this.claimItemActionEnabled = this.updateItemActionEnabled();
+      this.userHasRequested = this._userHasRequested();
       this.showRequestBtn = !this.userIsItemHolder();
+      this.claimItemActionEnabled = this.updateItemActionEnabled();
+
     });
 
   }
 
   updateItemActionEnabled() {
-    return !this.userHasRequested() && !this.userIsItemHolder();
+    return !this._userHasRequested() && !this.userIsItemHolder();
   }
 
-  userHasRequested() {
+  _userHasRequested() {
     return this.requests && this.requests.filter(item => item.user.id === this.user.uid).length > 0;
   }
 
@@ -123,5 +126,5 @@ export class InventoryDetailComponent implements OnInit {
       .delete(deletePendingRef)
       .catch(e => console.log(e));
   }
-  
+
 }

@@ -15,7 +15,7 @@ export class InventoryListComponent implements OnInit {
 
   public items: IIventoryItem[] = [];
 
-  displayedColumns = ['title', 'owner', 'category'];
+  displayedColumns = ['title', 'holder', 'category'];
   dataSource = [];
   dataSourceFiltered = [];
   selectedCategory: number;
