@@ -6,6 +6,7 @@ import { UserRoutingModule } from './user-routing.module';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { SharedModule } from "../shared/shared.module";
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { UserRegisterComponent } from './user-register/user-register.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     SharedModule,
     UserRoutingModule
   ],
-  declarations: [UserLoginComponent, UserProfileComponent]
+  declarations: [UserLoginComponent, UserProfileComponent, UserRegisterComponent]
 })
 export class UserModule { }
