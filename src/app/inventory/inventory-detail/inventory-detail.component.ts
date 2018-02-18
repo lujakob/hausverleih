@@ -48,13 +48,10 @@ export class InventoryDetailComponent implements OnInit {
       );
 
     }).subscribe(([data, requests]) => {
-      console.log("data", data);
-      console.log("requests", requests);
       this.requests = <IInventoryRequest[]>requests;
       this.data = data;
 
       this.claimItemActionEnabled = this.updateItemActionEnabled();
-
       this.showRequestBtn = !this.userIsItemHolder();
     });
 
@@ -126,19 +123,5 @@ export class InventoryDetailComponent implements OnInit {
       .delete(deletePendingRef)
       .catch(e => console.log(e));
   }
-
-  loadData(id: string) {
-    const ref = `inventory/${id}`;
-    this.firestoreService
-      .doc$(ref)
-      .subscribe((data: IIventoryItem) => {
-        this.data = data;
-
-        this.claimItemActionEnabled = this.user.uid !== this.data.holder.id;
-        console.log(data);
-        console.log(this.user);
-        console.log(this.claimItemActionEnabled);
-      });
-  }
-
+  
 }
