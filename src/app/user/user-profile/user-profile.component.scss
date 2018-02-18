@@ -12,4 +12,8 @@ app-user-profile {
   .cdk-column-delte {
     flex-grow: 1;
   }
+
+  .mat-icon.is-disabled {
+    opacity: 0.2;
+  }
 }

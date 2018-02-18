@@ -22,10 +22,16 @@
 			<mat-cell *matCellDef="let element" (click)="onClick(element)"> {{element.category.title}} </mat-cell>
 		</ng-container>
 
+		<!-- Holder Column -->
+		<ng-container matColumnDef="holder">
+			<mat-header-cell *matHeaderCellDef> Besitzer </mat-header-cell>
+			<mat-cell *matCellDef="let element" (click)="onClick(element)"> {{element.holder.name}} </mat-cell>
+		</ng-container>
+
 		<!-- Delete Column -->
 		<ng-container matColumnDef="delete">
 			<mat-header-cell *matHeaderCellDef>  </mat-header-cell>
-			<mat-cell *matCellDef="let element"><mat-icon (click)="delete(element)">delete</mat-icon></mat-cell>
+			<mat-cell *matCellDef="let element"><mat-icon (click)="delete(element)" [class.is-disabled]="isDisabled(element)">delete</mat-icon></mat-cell>
 		</ng-container>
 
 		<mat-header-row *matHeaderRowDef="assetsColumns"></mat-header-row>

@@ -5,7 +5,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { UserRoutingModule } from './user-routing.module';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { SharedModule } from "../shared/shared.module";
-import { UserProfileComponent } from './user-profile/user-profile.component';
+import {DeleteAssetDialog, UserProfileComponent} from './user-profile/user-profile.component';
 import { UserRegisterComponent } from './user-register/user-register.component';
 
 @NgModule({
@@ -16,6 +16,7 @@ import { UserRegisterComponent } from './user-register/user-register.component';
     SharedModule,
     UserRoutingModule
   ],
-  declarations: [UserLoginComponent, UserProfileComponent, UserRegisterComponent]
+  declarations: [UserLoginComponent, UserProfileComponent, UserRegisterComponent, DeleteAssetDialog],
+  entryComponents: [DeleteAssetDialog]
 })
 export class UserModule { }

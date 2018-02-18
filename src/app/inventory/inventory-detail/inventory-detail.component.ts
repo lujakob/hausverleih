@@ -44,7 +44,7 @@ export class InventoryDetailComponent implements OnInit {
 
       return Observable.combineLatest(
         this.firestoreService.doc$(detailRef),
-        this.firestoreService.colWithIds$(requestRef)
+        this.firestoreService.colWithIds$(requestRef, ref => ref.orderBy('createdAt', 'asc'))
       );
 
     }).subscribe(([data, requests]) => {
