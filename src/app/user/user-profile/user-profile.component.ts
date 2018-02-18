@@ -61,14 +61,8 @@ export class UserProfileComponent implements OnInit {
 
     const ref = `inventory`;
     this.firestoreService
-      .colWithIds$(ref, ref => {
-
-        ref.where('owner.id', '==', user.uid);
-        return ref;
-      })
-      .subscribe(data => {
-        this.assets = data;
-      });
+      .colWithIds$(ref, ref => ref.where('owner.id', '==', user.uid))
+      .subscribe(data => this.assets = data);
   }
 
   switchContent(event) {
