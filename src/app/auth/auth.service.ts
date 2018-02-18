@@ -56,13 +56,13 @@ export class AuthService {
 	private oAuthLogin(provider) {
 		return this.afAuth.auth.signInWithPopup(provider)
 			.then(cred => {
-				this.updateUserData(cred.user)
-				this.router.navigate(['/'])
+				this.updateUserData(cred.user);
+				this.router.navigate(['/']);
 			})
 			.catch(e => {
 				console.log(e.code)
 				if (e.code === 'auth/account-exists-with-different-credential') {
-					alert('Konto z takim mailem już istnieje!\nSkorzystaj z innej metody.')
+					alert('Der Account existiert mit anderen Credentials.')
 				}
 			})
 	}

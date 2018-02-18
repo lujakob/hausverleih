@@ -52,9 +52,12 @@ export class InventoryDetailComponent implements OnInit {
       this.requests = <IInventoryRequest[]>requests;
       this.data = data;
 
-      this.userHasRequested = this._userHasRequested();
-      this.showRequestBtn = !this.userIsItemHolder();
-      this.claimItemActionEnabled = this.updateItemActionEnabled();
+      // bug on logout when user is not available
+      if (this.user) {
+        this.userHasRequested = this._userHasRequested();
+        this.showRequestBtn = !this.userIsItemHolder();
+        this.claimItemActionEnabled = this.updateItemActionEnabled();
+      }
 
     });
 
